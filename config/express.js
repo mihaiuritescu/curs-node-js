@@ -14,6 +14,7 @@ function initExpress(app) {
   app.use(methodOverride())
 
   app.use(function (req, res, next) {
+    req.resources = {};
     next();
   })
 }

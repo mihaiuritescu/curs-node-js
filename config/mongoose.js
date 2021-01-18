@@ -9,7 +9,8 @@ module.exports = {
 function initMongoose() {
   mongoose.connect('mongodb://127.0.0.1/mihai', {
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    useCreateIndex: true
   })
 
   const db = mongoose.connection;
@@ -19,7 +20,7 @@ function initMongoose() {
   })
 
   db.once("open", function(err) {
-    console.log("connected to mongoDB");
+    console.log("Connected to mongoDB");
   })
 
   process.on("SIGINT", cleanup);

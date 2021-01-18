@@ -8,14 +8,10 @@ module.exports = {
 
 function initRoutes(app) {
   const routesPath = path.join(__dirname, "../app/routes");
-  const routes = ["users"];
+  const routes = ["users", "orders"];
 
   routes.forEach(function(route) {
     const finalPath = `${routesPath}/${route}`;
-
-    console.log("route", route);
-    console.log("finalPath", finalPath);
-    
     app.use(require(finalPath));
   })
 }

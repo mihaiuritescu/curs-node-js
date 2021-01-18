@@ -1,22 +1,13 @@
 "use strict"
 
+const { json } = require("body-parser");
 const User = require("../models/users");
 
 module.exports = {
-  midd2: midd2,
-  midd3: midd3,
-  createUser: createUser
-}
-
-function midd2(req, res, next) {
-  console.log("users route second mid");
-  console.log("body: ", req.body);
-  next();
-}
-
-function midd3(req, res, next) {
-  console.log("users route third mid");
-  return res.json({text: "the end"});
+  createUser: createUser,
+  getUsers: getUsers,
+  getUserById: getUserById,
+  deleteUserById: deleteUserById
 }
 
 function createUser(req, res, next) {
@@ -24,9 +15,40 @@ function createUser(req, res, next) {
 
   user.save(function(err, result) {
     if(err) {
-      console.log("err", err);
+      return next(err);
     }
-    return res.json(result);
+    req.resources.users = result;
+    return next();
   })
+}
 
+function getUsers(req, res, next) {
+  User.find(function(err, result) {
+    if (err) {
+      returnnext(error);
+    }
+    req.resources.users = result;
+    return next();
+  })
+}
+
+function getUserById(req, res, next) {
+  const { userId } = req.params;
+  User.findById({_id: userId}, function(err, result) {
+    if (err) {
+      return next(error);
+    }
+    req.resources.users = result;
+    return next();
+  })
+}
+
+function deleteUserById(req, res, next) {
+  const { userId } = req.params;
+  User.deleteOne({_id: userId}, function(err, result) {
+    if (err) {
+      return next(error);
+    }
+    return next();
+  });
 }
